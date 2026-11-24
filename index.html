@@ -1,0 +1,492 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="description" content="ReviseAI personalised revision planning concept for Level 3 students." />
+  <title>ReviseAI — Personalised revision planning</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- Landing -->
+  <section class="landing" id="landing">
+    <header class="landing-nav">
+      <a class="logo" href="#">
+        <span class="logo-mark">R</span>
+        <span>ReviseAI</span>
+      </a>
+      <div class="landing-actions">
+        <button class="link-btn" id="landingThemeToggle">Theme</button>
+        <button class="secondary-btn" id="tryDemoBtn">Try demo</button>
+        <button class="primary-btn" id="getStartedBtn">Get started</button>
+      </div>
+    </header>
+
+    <main class="landing-main">
+      <div class="landing-copy">
+        <div class="eyebrow">Personalised study planning</div>
+        <h1>Revision that adapts to <span>you.</span></h1>
+        <p>Build a realistic study plan from your subjects, deadlines, confidence, available time and current study stage.</p>
+        <div class="landing-cta">
+          <button class="primary-btn large" id="heroStartBtn">Build my plan</button>
+          <button class="secondary-btn large" id="heroDemoBtn">Explore sample dashboard</button>
+        </div>
+        <div class="trust-row">
+          <span>✓ Adaptive study modes</span>
+          <span>✓ Focus + break timer</span>
+          <span>✓ Progress feedback</span>
+        </div>
+      </div>
+
+      <div class="landing-preview">
+        <div class="preview-window">
+          <div class="preview-bar">
+            <span></span><span></span><span></span>
+          </div>
+          <div class="preview-content">
+            <div class="preview-top">
+              <div>
+                <small>REVISION MODE</small>
+                <h3>Today's plan</h3>
+              </div>
+              <div class="preview-score">74%</div>
+            </div>
+            <div class="preview-task strong">
+              <div><b>Algorithms</b><small>Computer Science · High priority</small></div>
+              <span>45m</span>
+            </div>
+            <div class="preview-task">
+              <div><b>Calculus</b><small>Mathematics · Medium priority</small></div>
+              <span>60m</span>
+            </div>
+            <div class="preview-ai">
+              <span>✦</span>
+              <p><b>Recommendation</b><br>Move one Maths block to Algorithms. Confidence is lower and the assessment is closer.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </section>
+
+  <!-- App -->
+  <div class="app hidden" id="app">
+    <aside class="sidebar" id="sidebar">
+      <div>
+        <div class="brand">
+          <span class="logo-mark">R</span>
+          <div>
+            <strong>ReviseAI</strong>
+            <small>Study planner</small>
+          </div>
+        </div>
+
+        <nav class="side-nav">
+          <button class="nav-item active" data-view="dashboard"><span>⌂</span>Dashboard</button>
+          <button class="nav-item" data-view="plan"><span>◫</span>Revision plan</button>
+          <button class="nav-item" data-view="focus"><span>◷</span>Focus timer</button>
+          <button class="nav-item" data-view="subjects"><span>▤</span>Subjects</button>
+          <button class="nav-item" data-view="progress"><span>↗</span>Progress</button>
+          <button class="nav-item" data-view="recommendations"><span>✦</span>Recommendations</button>
+          <button class="nav-item" data-view="settings"><span>⚙</span>Settings</button>
+        </nav>
+      </div>
+
+      <div class="sidebar-bottom">
+        <div class="mode-card">
+          <small>Current mode</small>
+          <button id="sidebarModeButton">
+            <span id="sidebarModeLabel">Revision</span>
+            <span>⌄</span>
+          </button>
+        </div>
+        <button class="exit-btn" id="exitToLanding">← Back to homepage</button>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="app-header">
+        <div class="header-left">
+          <button class="icon-btn mobile-only" id="menuButton">☰</button>
+          <div>
+            <div class="eyebrow" id="pageEyebrow">Overview</div>
+            <h2 id="pageTitle">Dashboard</h2>
+          </div>
+        </div>
+        <div class="header-actions">
+          <button class="icon-btn" id="themeToggle" title="Toggle theme">◐</button>
+          <button class="notification-btn" title="Notifications">◌<span class="notification-dot"></span></button>
+          <button class="profile-chip" id="profileButton">
+            <span class="avatar" id="headerAvatar">ST</span>
+            <span class="profile-name" id="headerName">Student</span>
+          </button>
+        </div>
+      </header>
+
+      <!-- Dashboard -->
+      <section class="view active" id="view-dashboard">
+        <div class="dashboard-hero">
+          <div>
+            <div class="eyebrow" id="heroModeEyebrow">Revision mode</div>
+            <h1 id="dashboardGreeting">Good afternoon.</h1>
+            <p id="dashboardSummary">Your plan is balancing urgency, confidence and available time.</p>
+          </div>
+          <div class="hero-actions">
+            <button class="secondary-btn" id="changeModeBtn">Change mode</button>
+            <button class="primary-btn" data-jump="plan">Open today's plan</button>
+          </div>
+        </div>
+
+        <div class="stats-grid" id="dashboardStats"></div>
+
+        <div class="dashboard-grid">
+          <article class="card span-2">
+            <div class="card-head">
+              <div>
+                <div class="eyebrow">Today</div>
+                <h3>Study plan</h3>
+              </div>
+              <span class="badge" id="todayTaskCount">0 tasks</span>
+            </div>
+            <div class="task-list" id="todayTasks"></div>
+          </article>
+
+          <article class="card">
+            <div class="card-head">
+              <div>
+                <div class="eyebrow">Smart recommendation</div>
+                <h3>What needs attention</h3>
+              </div>
+              <span class="icon-tile">✦</span>
+            </div>
+            <div id="dashboardRecommendation" class="recommendation-copy"></div>
+            <button class="text-link" data-jump="recommendations">View all recommendations →</button>
+          </article>
+
+          <article class="card span-2">
+            <div class="card-head">
+              <div>
+                <div class="eyebrow">This week</div>
+                <h3>Planned workload</h3>
+              </div>
+              <span class="muted" id="weekTotalLabel"></span>
+            </div>
+            <div class="week-chart" id="weekChart"></div>
+          </article>
+
+          <article class="card">
+            <div class="card-head">
+              <div>
+                <div class="eyebrow">Next assessment</div>
+                <h3 id="nextAssessmentTitle">No assessment</h3>
+              </div>
+            </div>
+            <div class="assessment-countdown" id="nextAssessmentDays">—</div>
+            <div class="muted" id="nextAssessmentMeta">Add an exam or test date.</div>
+          </article>
+        </div>
+      </section>
+
+      <!-- Plan -->
+      <section class="view" id="view-plan">
+        <div class="section-heading">
+          <div>
+            <div class="eyebrow">Generated schedule</div>
+            <h1>Your revision plan</h1>
+            <p id="planIntro">Built around your study mode, availability and current priorities.</p>
+          </div>
+          <div class="action-row">
+            <button class="secondary-btn" id="reduceLoadBtn">Reduce workload</button>
+            <button class="secondary-btn" id="regenerateBtn">Regenerate</button>
+            <button class="primary-btn" id="addCustomSessionBtn">Add session</button>
+          </div>
+        </div>
+
+        <div class="logic-banner">
+          <span class="icon-tile">✦</span>
+          <div>
+            <strong>How this plan was prioritised</strong>
+            <p id="planLogic"></p>
+          </div>
+        </div>
+
+        <div class="calendar-tabs">
+          <button class="tab active">Week</button>
+          <button class="tab">Today</button>
+        </div>
+        <div class="plan-board" id="planBoard"></div>
+      </section>
+
+      <!-- Focus -->
+      <section class="view" id="view-focus">
+        <div class="section-heading">
+          <div>
+            <div class="eyebrow">Distraction-free study</div>
+            <h1>Focus timer</h1>
+            <p>Study and break periods are calculated inside the total planned session time.</p>
+          </div>
+        </div>
+
+        <div class="focus-grid">
+          <article class="focus-panel">
+            <div class="focus-header">
+              <div>
+                <div class="eyebrow" id="focusType">Focus</div>
+                <h2 id="focusTaskTitle">Choose a study task</h2>
+                <p id="focusTaskMeta">Start a session from your dashboard or revision plan.</p>
+              </div>
+              <span class="badge" id="focusTotalBadge">No session</span>
+            </div>
+
+            <div class="timer-wrap">
+              <svg class="timer-svg" viewBox="0 0 240 240">
+                <circle class="timer-track" cx="120" cy="120" r="104"></circle>
+                <circle class="timer-progress" id="timerProgress" cx="120" cy="120" r="104"></circle>
+              </svg>
+              <div class="timer-center">
+                <div class="timer-value" id="timerValue">25:00</div>
+                <div class="timer-status" id="timerStatus">Ready to focus</div>
+              </div>
+            </div>
+
+            <div class="timer-controls">
+              <button class="secondary-btn" id="timerReset">Reset</button>
+              <button class="primary-btn timer-main-btn" id="timerStart">Start</button>
+              <button class="secondary-btn" id="timerSkip">Skip</button>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="card-head">
+              <div>
+                <div class="eyebrow">Session structure</div>
+                <h3 id="focusBreakdownTitle">No task selected</h3>
+              </div>
+            </div>
+            <div class="segment-list" id="focusSegments"></div>
+            <div class="calm-note">
+              <strong>Pomodoro-style timing</strong>
+              <p>Up to 25 minutes focus, then up to 5 minutes break. The last segment shortens automatically so the session never exceeds the time you planned.</p>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- Subjects -->
+      <section class="view" id="view-subjects">
+        <div class="section-heading">
+          <div>
+            <div class="eyebrow">Study profile</div>
+            <h1>Your subjects</h1>
+            <p>Confidence, difficulty and upcoming assessments influence your priority score.</p>
+          </div>
+          <button class="primary-btn" id="subjectAddBtn">Add subject</button>
+        </div>
+        <div class="subject-grid" id="subjectGrid"></div>
+      </section>
+
+      <!-- Progress -->
+      <section class="view" id="view-progress">
+        <div class="section-heading">
+          <div>
+            <div class="eyebrow">Learning evidence</div>
+            <h1>Your progress</h1>
+            <p>See whether your planned revision is turning into completed study and confidence growth.</p>
+          </div>
+        </div>
+
+        <div class="stats-grid" id="progressStats"></div>
+
+        <div class="progress-layout">
+          <article class="card">
+            <div class="card-head"><div><div class="eyebrow">Confidence</div><h3>Subject confidence</h3></div></div>
+            <div id="confidenceBars"></div>
+          </article>
+          <article class="card">
+            <div class="card-head"><div><div class="eyebrow">Completion</div><h3>Weekly study trend</h3></div></div>
+            <div class="trend-chart" id="trendChart"></div>
+          </article>
+        </div>
+      </section>
+
+      <!-- Recommendations -->
+      <section class="view" id="view-recommendations">
+        <div class="section-heading">
+          <div>
+            <div class="eyebrow">Adaptive guidance</div>
+            <h1>Recommendations</h1>
+            <p>Suggestions are generated from your profile, schedule and current study mode.</p>
+          </div>
+        </div>
+        <div class="recommendations-list" id="recommendationsList"></div>
+      </section>
+
+      <!-- Settings -->
+      <section class="view" id="view-settings">
+        <div class="section-heading">
+          <div>
+            <div class="eyebrow">Preferences</div>
+            <h1>Settings</h1>
+            <p>Adjust the study experience without changing your academic data.</p>
+          </div>
+        </div>
+
+        <div class="settings-grid">
+          <article class="card">
+            <h3>Appearance</h3>
+            <div class="setting-row">
+              <div><strong>Theme</strong><span>Use a calm light or dark focus palette.</span></div>
+              <select id="themeSelect">
+                <option value="light">Light</option>
+                <option value="dark">Dark</option>
+                <option value="system">System</option>
+              </select>
+            </div>
+          </article>
+
+          <article class="card">
+            <h3>Focus timer</h3>
+            <div class="setting-row">
+              <div><strong>Timer sounds</strong><span>Play a soft chime when focus or break periods end.</span></div>
+              <label class="switch"><input type="checkbox" id="soundToggle" checked><span></span></label>
+            </div>
+            <div class="setting-row">
+              <div><strong>Browser notifications</strong><span>Use notifications when the page is in the background.</span></div>
+              <label class="switch"><input type="checkbox" id="notificationToggle"><span></span></label>
+            </div>
+            <div class="setting-row">
+              <div><strong>Focus length</strong><span>Recommended default is 25 minutes.</span></div>
+              <select id="focusLengthSelect">
+                <option value="25">25 min</option>
+                <option value="30">30 min</option>
+                <option value="40">40 min</option>
+              </select>
+            </div>
+            <div class="setting-row">
+              <div><strong>Break length</strong><span>Recommended default is 5 minutes.</span></div>
+              <select id="breakLengthSelect">
+                <option value="5">5 min</option>
+                <option value="10">10 min</option>
+              </select>
+            </div>
+          </article>
+
+          <article class="card">
+            <h3>Study profile</h3>
+            <button class="secondary-btn full-width" id="editProfileBtn">Edit onboarding answers</button>
+          </article>
+
+          <article class="card">
+            <h3>Demo data</h3>
+            <button class="danger-btn full-width" id="resetAppBtn">Reset everything</button>
+          </article>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Onboarding modal -->
+  <div class="modal-backdrop" id="onboardingModal">
+    <div class="modal large-modal">
+      <div class="modal-progress">
+        <div class="modal-progress-fill" id="onboardingProgress"></div>
+      </div>
+
+      <div class="onboarding-step active" data-step="1">
+        <div class="eyebrow">Step 1 of 5</div>
+        <h2>Let's build your study profile</h2>
+        <p>Start with the basics. You can change these later.</p>
+        <div class="form-grid">
+          <label class="field"><span>Your name</span><input id="studentNameInput" placeholder="e.g. Alex"></label>
+          <label class="field"><span>Level 3 programme</span>
+            <select id="programmeInput">
+              <option>A Levels</option><option>BTEC Level 3</option><option>Applied Level 3</option><option>Other Level 3</option>
+            </select>
+          </label>
+        </div>
+      </div>
+
+      <div class="onboarding-step" data-step="2">
+        <div class="eyebrow">Step 2 of 5</div>
+        <h2>What are you studying?</h2>
+        <p>Add each subject with a confidence score, difficulty and upcoming assessment date.</p>
+        <div id="onboardingSubjects"></div>
+        <button class="secondary-btn add-line" id="onboardingAddSubject">+ Add another subject</button>
+      </div>
+
+      <div class="onboarding-step" data-step="3">
+        <div class="eyebrow">Step 3 of 5</div>
+        <h2>When can you actually study?</h2>
+        <p>We use your real availability instead of filling every free hour.</p>
+        <div class="availability-grid" id="availabilityGrid"></div>
+      </div>
+
+      <div class="onboarding-step" data-step="4">
+        <div class="eyebrow">Step 4 of 5</div>
+        <h2>What's your current study stage?</h2>
+        <p>This changes how aggressively the planner prioritises urgency, weak topics and exam practice.</p>
+        <div class="mode-options" id="onboardingModeOptions">
+          <button class="mode-option" data-mode="normal"><b>Normal period</b><span>Balanced weekly study and consistency.</span></button>
+          <button class="mode-option active" data-mode="revision"><b>Revision</b><span>More weight on weaker topics and upcoming assessments.</span></button>
+          <button class="mode-option" data-mode="test"><b>Test mode</b><span>Short-term focus on one or a few approaching tests.</span></button>
+          <button class="mode-option" data-mode="exam"><b>Exam mode</b><span>Highest urgency with exam-practice weighting.</span></button>
+        </div>
+      </div>
+
+      <div class="onboarding-step" data-step="5">
+        <div class="eyebrow">Step 5 of 5</div>
+        <h2>What do you need the most help with?</h2>
+        <p>Select any that apply.</p>
+        <div class="goal-grid" id="goalGrid">
+          <button class="goal active" data-goal="priority">Deciding what to revise first</button>
+          <button class="goal" data-goal="schedule">Building a realistic timetable</button>
+          <button class="goal" data-goal="consistency">Staying consistent</button>
+          <button class="goal" data-goal="balance">Balancing subjects</button>
+          <button class="goal" data-goal="deadlines">Preparing for deadlines</button>
+          <button class="goal" data-goal="focus">Staying focused during sessions</button>
+        </div>
+      </div>
+
+      <div class="modal-actions">
+        <button class="secondary-btn" id="onboardingBack">Back</button>
+        <button class="primary-btn" id="onboardingNext">Continue</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mode modal -->
+  <div class="modal-backdrop" id="modeModal">
+    <div class="modal">
+      <div class="modal-head">
+        <div><div class="eyebrow">Study mode</div><h2>Choose how the planner should behave</h2></div>
+        <button class="icon-btn" data-close="modeModal">✕</button>
+      </div>
+      <div class="mode-options" id="modeOptions"></div>
+    </div>
+  </div>
+
+  <!-- Add session modal -->
+  <div class="modal-backdrop" id="sessionModal">
+    <div class="modal">
+      <div class="modal-head">
+        <div><div class="eyebrow">Custom session</div><h2>Add revision manually</h2></div>
+        <button class="icon-btn" data-close="sessionModal">✕</button>
+      </div>
+      <div class="form-grid">
+        <label class="field"><span>Subject</span><select id="customSubject"></select></label>
+        <label class="field"><span>Minutes</span><input id="customMinutes" type="number" value="45" min="15" max="180"></label>
+        <label class="field span-all"><span>Task</span><input id="customTask" placeholder="e.g. Past paper questions"></label>
+      </div>
+      <div class="modal-actions">
+        <button class="primary-btn" id="saveCustomSession">Add to Monday</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+  <script src="app.js"></script>
+</body>
+</html>
